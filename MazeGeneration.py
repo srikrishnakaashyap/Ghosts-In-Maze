@@ -73,11 +73,6 @@ class MazeGeneration:
             return grid
         return self.generateMaze(n)
 
-    def printMaze(self, grid):
-
-        for row in grid:
-            print(row)
-
     def getCount(self, grid):
         answer = 0
 
