@@ -2,29 +2,37 @@ from MazeGeneration import MazeGeneration
 import random
 from collections import deque
 from UtilityFunctions import Utility
+from collections import defaultdict
+from copy import copy
 
 
 class Agent1:
-    def recursiveDFS(self, grid, visited, ghostSet, currRow, currCol, path):
+    def recursiveDFS(self, grid, visited, ghostMap, currRow, currCol, path):
 
         if path[-1] == (len(grid) - 1, len(grid[0]) - 1):
-            return path
+            self.allPaths.append(path[:])
+            return
 
         rows = [0, 0, -1, 1]
         cols = [-1, 1, 0, 0]
 
-        newGhostSet = set()
+        newGhostMap = defaultdict(int)
+        # print(len(ghostSet))
+        for key, value in ghostMap.items():
 
-        for element in ghostSet:
-            row = element[0]
-            col = element[1]
+            g = value
+            while g > 0:
+                row = key[0]
+                col = key[1]
 
-            newPosition = Utility.moveGhost(row, col, grid)
-            if path[-1] == newPosition:
-                return -1
-            newGhostSet.add(newPosition)
+                newPosition = Utility.moveGhost(row, col, grid)
+                if path[-1] == newPosition:
+                    return
+                newGhostMap[newPosition] += 1
 
-        ghostSet = newGhostSet
+                g -= 1
+
+        ghostMap = copy(newGhostMap)
 
         for j in range(4):
             newRow = currRow + rows[j]
@@ -33,39 +41,48 @@ class Agent1:
             if (
                 0 <= newRow < len(grid)
                 and 0 <= newCol < len(grid[0])
-                and (newRow, newCol) not in ghostSet
+                and ghostMap[(newRow, newCol)] == 0
                 and grid[newRow][newCol] == 0
+                and (newRow, newCol) not in visited
             ):
                 # moved = True
                 visited.add((newRow, newCol))
-
                 path.append((newRow, newCol))
-                self.recursiveDFS(grid, visited, ghostSet, newRow, newCol, path)
+                self.recursiveDFS(grid, visited, ghostMap, newRow, newCol, path)
                 path.pop(-1)
                 visited.remove((newRow, newCol))
-        return []
+
+        return
 
     def findPath(self, numberOfGhosts):
         self.mg = MazeGeneration()
 
-        ghostSet = set()
+        ghostMap = defaultdict(int)
 
-        grid = self.mg.generateMaze(10)
+        grid = self.mg.generateMaze(5)
 
-        Utility.spawnGhosts(grid, numberOfGhosts, ghostSet)
-
-        print("GHOST SET", ghostSet)
+        Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
         Utility.printMaze(grid)
 
+        print(ghostMap)
+
         path = [(0, 0)]
 
+        self.allpaths = []
+
         visited = set()
+        visited.add((0, 0))
 
-        # self.recursiveDFS(grid, visited, ghostSet, 0, 0, path)
+        self.recursiveDFS(grid, visited, ghostMap, 0, 0, path)
 
-        # Utility.printMaze(grid)
+        print("FINAL MAZEE")
+        print("-----------------------------")
+        Utility.printMaze(grid)
 
+        # print("-----------------------------")
+
+        # print(self.allpaths)
         # print(path)
 
 
@@ -73,4 +90,4 @@ if __name__ == "__main__":
 
     agent1 = Agent1()
 
-    agent1.findPath(5)
+    agent1.findPath(3)

@@ -26,31 +26,33 @@ class Utility:
 
         ghostMove = unblockedCells * 2 + blockedCells
         k = random.randint(0, len(ghostMove) - 1)
-
         grid[row][col] -= 2
         newPosition = ghostMove[k]
-        grid[newPosition[0]][newPosition[1]] += 2
+
+        nr = newPosition[0]
+        nc = newPosition[1]
+        # print(newPosition)
+        grid[nr][nc] += 2
         return newPosition
 
     @staticmethod
-    def spawnGhosts(grid, numberOfGhosts, ghostSet):
+    def spawnGhosts(grid, numberOfGhosts, ghostMap):
         number = 0
 
         while number < numberOfGhosts:
             randomRow = random.randint(0, len(grid) - 1)
             randomCol = random.randint(0, len(grid[0]) - 1)
 
-            print(randomRow, randomCol)
+            # print(randomRow, randomCol)
 
-            if (randomRow, randomCol) in ghostSet:
+            if (randomRow == 0 and randomCol == 0) or (
+                randomRow == len(grid) - 1 and randomCol == len(grid[0]) - 1
+            ):
                 continue
 
             grid[randomRow][randomCol] += 2
-            ghostSet.add((randomRow, randomCol))
+            ghostMap[(randomRow, randomCol)] += 1
             number += 1
-
-        # Utility.printMaze(grid)
-        # return grid, ghostSet
 
     @staticmethod
     def printMaze(grid):
