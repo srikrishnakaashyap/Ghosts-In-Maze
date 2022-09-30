@@ -27,8 +27,12 @@ class MazeGeneration:
     def checkMaze(self, grid):
         queue = deque()
 
-        queue.append((0, 0))
+        path = [[-1 for i in range(len(grid[0]))] for j in range(len(grid))]
+
+        queue.append((len(grid) - 1, len(grid[0]) - 1))
         visited = set()
+
+        visited.add((len(grid) - 1, len(grid[0]) - 1))
 
         rows = [0, 0, -1, 1]
         cols = [-1, 1, 0, 0]
@@ -36,9 +40,6 @@ class MazeGeneration:
             n = len(queue)
             for i in range(n):
                 element = queue.popleft()
-
-                if element[0] == len(grid) - 1 and element[1] == len(grid[0]) - 1:
-                    return True
 
                 for i in range(4):
                     newRow = element[0] + rows[i]
@@ -52,8 +53,13 @@ class MazeGeneration:
                     ):
                         visited.add((newRow, newCol))
                         queue.append((newRow, newCol))
+                        path[newRow][newCol] = (element[0], element[1])
 
-        return False
+        if path[0][0] == -1:
+            return False, []
+
+        path[-1][-1] = 100
+        return True, path
 
     def generateMaze(self, n):
         grid = [[0 for i in range(n)] for j in range(n)]
@@ -69,8 +75,10 @@ class MazeGeneration:
                 index = random.randint(0, 99)
                 grid[i][j] = blockedNumbers[index]
 
-        if self.checkMaze(grid):
-            return grid
+        result, path = self.checkMaze(grid)
+
+        if result:
+            return grid, path
         return self.generateMaze(n)
 
     def getCount(self, grid):

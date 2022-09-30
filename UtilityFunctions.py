@@ -11,27 +11,27 @@ class Utility:
 
         rows = [0, 0, -1, 1]
         cols = [-1, 1, 0, 0]
-        unblockedCells = []
-        blockedCells = []
+
+        ghostMove = []
+
         for i in range(4):
             newRow = row + rows[i]
             newCol = col + cols[i]
 
             if 0 <= newRow < len(grid) and 0 <= newCol < len(grid[0]):
 
-                if grid[newRow][newCol] % 2 == 1:
-                    blockedCells.append((newRow, newCol))
-                else:
-                    unblockedCells.append((newRow, newCol))
-
-        ghostMove = unblockedCells * 2 + blockedCells
+                ghostMove.append((newRow, newCol))
         k = random.randint(0, len(ghostMove) - 1)
-        grid[row][col] -= 2
         newPosition = ghostMove[k]
 
         nr = newPosition[0]
         nc = newPosition[1]
-        # print(newPosition)
+
+        if grid[nr][nc] % 2 == 1:
+            m = random.randint(0, 1)
+            if m == 0:
+                return (row, col)
+        grid[row][col] -= 2
         grid[nr][nc] += 2
         return newPosition
 

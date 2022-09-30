@@ -1,93 +1,82 @@
 from MazeGeneration import MazeGeneration
-import random
-from collections import deque
-from UtilityFunctions import Utility
 from collections import defaultdict
+from UtilityFunctions import Utility
 from copy import copy
 
 
 class Agent1:
-    def recursiveDFS(self, grid, visited, ghostMap, currRow, currCol, path):
+    def agent1(self, grid, path, ghostMap):
+        currRow = 0
+        currCol = 0
 
-        if path[-1] == (len(grid) - 1, len(grid[0]) - 1):
-            self.allPaths.append(path[:])
-            return
+        while True:
+            # print(currRow, currCol)
+            if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
+                break
 
-        rows = [0, 0, -1, 1]
-        cols = [-1, 1, 0, 0]
+            newAgentPosition = path[currRow][currCol]
+            currRow = newAgentPosition[0]
+            currCol = newAgentPosition[1]
 
-        newGhostMap = defaultdict(int)
-        # print(len(ghostSet))
-        for key, value in ghostMap.items():
+            self.newGhostMap = defaultdict(int)
+            for key, value in ghostMap.items():
 
-            g = value
-            while g > 0:
-                row = key[0]
-                col = key[1]
+                g = value
+                while g > 0:
+                    row = key[0]
+                    col = key[1]
 
-                newPosition = Utility.moveGhost(row, col, grid)
-                if path[-1] == newPosition:
-                    return
-                newGhostMap[newPosition] += 1
+                    newPosition = Utility.moveGhost(row, col, grid)
+                    if newAgentPosition == newPosition:
+                        return False, grid, (currRow, currCol), ghostMap
 
-                g -= 1
+                    self.newGhostMap[newPosition] += 1
 
-        ghostMap = copy(newGhostMap)
+                    g -= 1
 
-        for j in range(4):
-            newRow = currRow + rows[j]
-            newCol = currCol + cols[j]
+            ghostMap = copy(self.newGhostMap)
 
-            if (
-                0 <= newRow < len(grid)
-                and 0 <= newCol < len(grid[0])
-                and ghostMap[(newRow, newCol)] == 0
-                and grid[newRow][newCol] == 0
-                and (newRow, newCol) not in visited
-            ):
-                # moved = True
-                visited.add((newRow, newCol))
-                path.append((newRow, newCol))
-                self.recursiveDFS(grid, visited, ghostMap, newRow, newCol, path)
-                path.pop(-1)
-                visited.remove((newRow, newCol))
+        return True, grid, (currRow, currCol), ghostMap
 
-        return
-
-    def findPath(self, numberOfGhosts):
+    def findPath(self, gridSize, numberOfGhosts):
         self.mg = MazeGeneration()
 
         ghostMap = defaultdict(int)
 
-        grid = self.mg.generateMaze(5)
+        grid, path = self.mg.generateMaze(gridSize)
+        # grid = [
+        #     [0, 1, 1, 0, 0],
+        #     [0, 0, 1, 1, 0],
+        #     [0, 0, 0, 0, 0],
+        #     [0, 0, 1, 0, 1],
+        #     [1, 0, 0, 0, 0],
+        # ]
+
+        # path = [
+        #     [(1, 0), -1, -1, (0, 4), (1, 4)],
+        #     [(2, 0), (2, 1), -1, -1, (2, 4)],
+        #     [(3, 0), (3, 1), (2, 3), (3, 3), (2, 3)],
+        #     [(3, 1), (4, 1), -1, (4, 3), -1],
+        #     [-1, (4, 2), (4, 3), (4, 4), -1],
+        # ]
 
         Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
-        Utility.printMaze(grid)
+        result, finalGrid, finalAgentPosition, finalGhostPosition = self.agent1(
+            grid, path, ghostMap
+        )
 
-        print(ghostMap)
+        print(result)
 
-        path = [(0, 0)]
+        # Utility.printMaze(finalGrid)
 
-        self.allpaths = []
+        print(finalAgentPosition)
 
-        visited = set()
-        visited.add((0, 0))
-
-        self.recursiveDFS(grid, visited, ghostMap, 0, 0, path)
-
-        print("FINAL MAZEE")
-        print("-----------------------------")
-        Utility.printMaze(grid)
-
-        # print("-----------------------------")
-
-        # print(self.allpaths)
-        # print(path)
+        print(finalGhostPosition)
 
 
 if __name__ == "__main__":
 
     agent1 = Agent1()
 
-    agent1.findPath(3)
+    agent1.findPath(51, 25)
