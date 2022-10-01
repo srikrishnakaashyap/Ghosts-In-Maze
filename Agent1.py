@@ -79,4 +79,4 @@ if __name__ == "__main__":
 
     agent1 = Agent1()
 
-    agent1.findPath(51, 25)
+    agent1.findPath(5, 1)
