@@ -27,7 +27,8 @@ class Agent1:
                     col = key[1]
 
                     newPosition = Utility.moveGhost(row, col, grid)
-                    if newAgentPosition == newPosition:
+                    # print(newAgentPosition[:2], newPosition)
+                    if newAgentPosition[:2] == newPosition:
                         return False, grid, (currRow, currCol), ghostMap
 
                     self.newGhostMap[newPosition] += 1
@@ -62,12 +63,15 @@ class Agent1:
 
         Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
+        # Utility.printMaze(grid)
+
         result, finalGrid, finalAgentPosition, finalGhostPosition = self.agent1(
             grid, path, ghostMap
         )
 
         print(result)
 
+        # print("___________________________-")
         # Utility.printMaze(finalGrid)
 
         print(finalAgentPosition)
@@ -79,4 +83,4 @@ if __name__ == "__main__":
 
     agent1 = Agent1()
 
-    agent1.findPath(5, 1)
+    agent1.findPath(51, 20)

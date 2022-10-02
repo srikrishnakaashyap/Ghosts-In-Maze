@@ -29,7 +29,7 @@ class MazeGeneration:
 
         path = [[-1 for i in range(len(grid[0]))] for j in range(len(grid))]
 
-        queue.append((len(grid) - 1, len(grid[0]) - 1))
+        queue.append((len(grid) - 1, len(grid[0]) - 1, 0))
         visited = set()
 
         visited.add((len(grid) - 1, len(grid[0]) - 1))
@@ -52,8 +52,8 @@ class MazeGeneration:
                         and grid[newRow][newCol] != 1
                     ):
                         visited.add((newRow, newCol))
-                        queue.append((newRow, newCol))
-                        path[newRow][newCol] = (element[0], element[1])
+                        queue.append((newRow, newCol, element[2] + 1))
+                        path[newRow][newCol] = (element[0], element[1], element[2] + 1)
 
         if path[0][0] == -1:
             return False, []
