@@ -1,5 +1,6 @@
 import random
 from collections import deque
+from UtilityFunctions import Utility
 
 """
 0 -> Unblocked
@@ -94,7 +95,12 @@ if __name__ == "__main__":
 
     mg = MazeGeneration()
 
-    grid = mg.generateMaze(51)
+    grid, path = mg.generateMaze(10)
+
+    Utility.printMaze(grid)
+
+    print("_________________________")
+    Utility.printMaze(path)
 
     # mg.printMaze(grid)
-    print("COUNT OF BLOCKED = ", mg.getCount(grid))
+    # print("COUNT OF BLOCKED = ", mg.getCount(grid))

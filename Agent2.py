@@ -1,5 +1,3 @@
-from turtle import distance
-from xmlrpc.client import boolean
 from MazeGeneration import MazeGeneration
 from collections import defaultdict
 from UtilityFunctions import Utility
@@ -9,13 +7,14 @@ from copy import copy
 class Agent2:
     def computePath(self, row, col, path):
 
-        pathMap = defaultdict(boolean)
+        pathMap = defaultdict(bool)
 
         while True:
             if row == len(path) - 1 and col == len(path[0]) - 1:
                 break
             pathMap[(row, col)] = False
             newPos = path[row][col]
+            # print("NEW POS", newPos)
             row = newPos[0]
             col = newPos[1]
 
@@ -74,14 +73,11 @@ class Agent2:
 
         return fRow, fCol, currPathMap
 
-    def agent2(self, grid, path, ghostMap):
+    def agent2(self, currRow, currCol, grid, path, ghostMap):
 
         #  Computing the path after every agent step
 
-        currPathMap = self.computePath(0, 0, path)
-        currRow = 0
-        currCol = 0
-
+        currPathMap = self.computePath(currRow, currCol, path)
         while True:
             if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
                 break
@@ -127,7 +123,7 @@ class Agent2:
 
                         newPosition = Utility.moveGhost(row, col, grid)
                         if newAgentPosition[:2] == newPosition:
-                            return False, grid, (currRow, currCol), ghostMap
+                            return False, grid, newPosition, ghostMap
 
                         self.newGhostMap[newPosition] += 1
 
@@ -148,7 +144,7 @@ class Agent2:
         Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
         result, finalGrid, finalAgentPosition, finalGhostPosition = self.agent2(
-            grid, path, ghostMap
+            0, 0, grid, path, ghostMap
         )
 
         print(result)
@@ -164,4 +160,4 @@ class Agent2:
 if __name__ == "__main__":
     agent2 = Agent2()
 
-    agent2.findPath(51, 100)
+    agent2.findPath(51, 50)
