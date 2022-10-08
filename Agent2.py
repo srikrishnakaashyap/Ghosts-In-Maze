@@ -156,6 +156,8 @@ class Agent2:
 
         print(finalGhostPosition)
 
+        return result
+
 
 if __name__ == "__main__":
     agent2 = Agent2()

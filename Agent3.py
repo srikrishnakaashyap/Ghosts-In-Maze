@@ -185,6 +185,8 @@ class Agent3:
 
         print(finalGhostPosition)
 
+        return result
+
 
 if __name__ == "__main__":
 
