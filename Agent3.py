@@ -6,6 +6,7 @@ from UtilityFunctions import Utility
 from collections import defaultdict
 from copy import copy
 from heapq import heapify, heappop
+import math
 
 
 class Agent3:
@@ -99,23 +100,27 @@ class Agent3:
         print(currRow, currCol)
 
         if (currRow, currCol) in ghostMap:
-            return False
+            print("1")
+            return False, grid, (currRow, currCol), ghostMap
 
         if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
-            return True
+            return True, grid, (currRow, currCol), ghostMap
 
         rows = [0, 0, -1, 1]
         cols = [-1, 1, 0, 0]
-
-        d = []
+        d = [
+            (float("infinity"), (path[currRow][currCol][0], path[currRow][currCol][1]))
+        ]
 
         for i in range(4):
             newRow = currRow + rows[i]
-            newCol = currRow + cols[i]
+            newCol = currCol + cols[i]
+            if newRow == len(grid) - 1 and newCol == len(grid[0]) - 1:
+                return True, grid, (newRow, newCol), ghostMap
             if (
                 0 <= newRow < len(grid)
                 and 0 <= newCol < len(grid[0])
-                and grid[newRow][newCol] % 2 != 1
+                and grid[newRow][newCol] == 0
             ):
                 successRate = 0
                 for j in range(10):
@@ -123,13 +128,13 @@ class Agent3:
                         newRow, newCol, grid, path, ghostMap
                     )[0]
 
-                # print(newRow, newCol)
-                d.append((-successRate, path[newRow][newCol][2], (newRow, newCol)))
+                d.append((-(successRate - path[newRow][newCol][2]), (newRow, newCol)))
+                # print(d)
 
         heapify(d)
-        # print(d)
+        # print(d, currRow, currCol)
         direction = heappop(d)
-        newAgentPosition = direction[2]
+        newAgentPosition = direction[1]
 
         self.newGhostMap = defaultdict(int)
         for key, value in ghostMap.items():
@@ -141,7 +146,8 @@ class Agent3:
 
                 newPosition = Utility.moveGhost(row, col, grid)
                 if newAgentPosition == newPosition:
-                    return False, grid, (currRow, currCol), ghostMap
+                    print("2")
+                    return False, grid, newPosition, ghostMap
 
                 self.newGhostMap[newPosition] += 1
 
@@ -164,7 +170,7 @@ class Agent3:
 
         Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
-        # Utility.printMaze(grid)
+        Utility.printMaze(grid)
 
         result, finalGrid, finalAgentPosition, finalGhostPosition = self.agent3(
             0, 0, grid, path, ghostMap
