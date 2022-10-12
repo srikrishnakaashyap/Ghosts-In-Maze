@@ -71,15 +71,19 @@ class ComputeAgents:
         agent2Map = {}
         agent3Map = {}
 
-        self.agent1Report(agent1Map)
-        with open("agent1.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent1Map))
+        # print("INSIDE")
 
-        self.agent2Report(agent2Map)
-        with open("agent2.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent2Map))
+        # self.agent1Report(agent1Map)
+        # with open("agent1.json", "w") as convert_file:
+        #     convert_file.write(json.dumps(agent1Map))
+
+        # self.agent2Report(agent2Map)
+        # with open("agent2.json", "w") as convert_file:
+        #     convert_file.write(json.dumps(agent2Map))
 
         self.agent3Report(agent3Map)
+        # with open("agent3.json", "w") as convert_file:
+        #     convert_file.write(json.dumps(agent3Map))
 
         # convert_file.close
 
@@ -95,3 +99,5 @@ class ComputeAgents:
 
 if __name__ == "__main__":
     cp = ComputeAgents()
+
+    cp.computeReport()
