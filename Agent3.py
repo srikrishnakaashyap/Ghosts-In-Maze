@@ -10,91 +10,6 @@ import math
 
 
 class Agent3:
-
-    # def isGhostPresent(self, ghostMap, currRow, currCol):
-    #     ghostDirection = set()
-    #     for i in range(-3, 4):
-    #         for j in range(-3, 4):
-    #             if (currRow+i,currCol+j) in ghostMap:
-    #                 ghostDirection.add((i,j))
-    #     isGhostPresent = False
-
-    #     return isGhostPresent, distance
-
-    # def computePath(self, row, col, path):
-
-    #     pathMap = defaultdict(bool)
-
-    #     while True:
-    #         if row == len(path) - 1 and col == len(path[0]) - 1:
-    #             break
-    #         pathMap[(row, col)] = False
-    #         newPos = path[row][col]
-    #         row = newPos[0]
-    #         col = newPos[1]
-
-    #     return pathMap
-
-    # def modifiedAgent2(self, currRow, currCol, grid, path, ghostMap):
-
-    #     #  Computing the path after every agent step
-
-    #     currPathMap = self.computePath(currRow, currCol, path)
-    #     while True:
-    #         if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
-    #             break
-
-    #         isGhostPresent, direction = self.isGhostPresent(
-    #             ghostMap, currRow, currCol
-    #         )
-
-    #         if isGhostPresent:
-    #             currRow, currCol, currPathMap = self.replan(
-    #                 grid, path, ghostMap, currPathMap, currRow, currCol, distance
-    #             )
-    #             self.newGhostMap = defaultdict(int)
-    #             for key, value in ghostMap.items():
-
-    #                 g = value
-    #                 while g > 0:
-    #                     row = key[0]
-    #                     col = key[1]
-
-    #                     newPosition = Utility.moveGhost(row, col, grid)
-    #                     if (currRow, currCol) == newPosition:
-    #                         return False, grid, (currRow, currCol), ghostMap
-
-    #                     self.newGhostMap[newPosition] += 1
-
-    #                     g -= 1
-
-    #             ghostMap = copy(self.newGhostMap)
-    #         else:
-    #             newAgentPosition = path[currRow][currCol]
-    #             currPathMap[(currRow, currCol)] = True
-    #             currRow = newAgentPosition[0]
-    #             currCol = newAgentPosition[1]
-
-    #             self.newGhostMap = defaultdict(int)
-    #             for key, value in ghostMap.items():
-
-    #                 g = value
-    #                 while g > 0:
-    #                     row = key[0]
-    #                     col = key[1]
-
-    #                     newPosition = Utility.moveGhost(row, col, grid)
-    #                     if newAgentPosition[:2] == newPosition:
-    #                         return False, grid, (currRow, currCol), ghostMap
-
-    #                     self.newGhostMap[newPosition] += 1
-
-    #                     g -= 1
-
-    #             ghostMap = copy(self.newGhostMap)
-
-    #     return True, grid, (currRow, currCol), ghostMap
-
     def getPenalty(self, x):
         return x
 
@@ -174,7 +89,7 @@ class Agent3:
 
             ghostMap = copy(newGhostMap)
 
-            # print(currRow, currCol, newAgentPosition)
+            print(currRow, currCol, newAgentPosition)
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
 
@@ -287,4 +202,4 @@ if __name__ == "__main__":
 
     agent3 = Agent3()
 
-    agent3.findPath(51, 100)
+    agent3.findPath(51, 50)
