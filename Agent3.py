@@ -11,7 +11,7 @@ import math
 
 class Agent3:
     def getPenalty(self, x):
-        return x
+        return x**2 / 5000
 
     # Try Failure Rate + distance + penality
     def agent3Iterative(self, currRow, currCol, grid, path, ghostMap, visited):

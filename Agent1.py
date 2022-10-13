@@ -18,6 +18,9 @@ class Agent1:
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
 
+            if (currRow, currCol) in ghostMap:
+                return False, grid, (currRow, currCol), ghostMap
+
             self.newGhostMap = defaultdict(int)
             for key, value in ghostMap.items():
 

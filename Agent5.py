@@ -5,16 +5,16 @@ from heapq import heapify, heappop
 from copy import copy
 
 
-class Agent4:
+class Agent5:
     def getPenalty(self, x):
         return x**2 / 5000
 
-    def dfs(self, row, col, visited, ghostMap, path, steps):
+    def dfs(self, row, col, visited, ghostMap, path, steps, grid):
 
         if steps == 5:
             return 0
 
-        if (row, col) in ghostMap:
+        if (row, col) in ghostMap and grid[row][col] % 2 != 1:
             return (4 * ghostMap[(row, col)] * 2 * path[row][col][2]) / 10 * steps
 
         rows = [-1, 1, 0, 0]
@@ -33,17 +33,12 @@ class Agent4:
             ):
                 visited.add((newRow, newCol))
                 answer += self.dfs(
-                    newRow,
-                    newCol,
-                    visited,
-                    ghostMap,
-                    path,
-                    steps + 1,
+                    newRow, newCol, visited, ghostMap, path, steps + 1, grid
                 )
                 visited.remove((newRow, newCol))
         return answer
 
-    def agent4(self, currRow, currCol, grid, path, ghostMap, visited):
+    def agent5(self, currRow, currCol, grid, path, ghostMap, visited):
 
         while True:
             visited[(currRow, currCol)] += 1
@@ -77,7 +72,13 @@ class Agent4:
                     d.append(
                         (
                             self.dfs(
-                                newRow, newCol, {(currRow, currCol)}, ghostMap, path, 1
+                                newRow,
+                                newCol,
+                                {(currRow, currCol)},
+                                ghostMap,
+                                path,
+                                1,
+                                grid,
                             )
                             + self.getPenalty(visited[(newRow, newCol)]),
                             path[newRow][newCol][2],
@@ -91,6 +92,9 @@ class Agent4:
                 newAgentPosition = direction[2]
             else:
                 newAgentPosition = (currRow, currCol)
+
+            if (newAgentPosition[0], newAgentPosition[1]) in ghostMap:
+                return False, grid, (currRow, currCol), ghostMap
 
             newGhostMap = defaultdict(int)
             for key, value in ghostMap.items():
@@ -133,7 +137,7 @@ class Agent4:
             finalGrid,
             finalAgentPosition,
             finalGhostPosition,
-        ) = self.agent4(0, 0, grid, path, ghostMap, visited)
+        ) = self.agent5(0, 0, grid, path, ghostMap, visited)
 
         print(result)
 
@@ -149,6 +153,6 @@ class Agent4:
 
 if __name__ == "__main__":
 
-    agent4 = Agent4()
+    agent5 = Agent5()
 
-    agent4.findPath(51, 50)
+    agent5.findPath(51, 50)
