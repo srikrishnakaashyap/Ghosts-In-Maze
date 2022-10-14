@@ -33,6 +33,7 @@ class ComputeAgents:
     def agent3Report(self, grid, path, ghostMap):
 
         agent3 = Agent3()
+        agent3.agent2 = Agent2()
 
         (
             result,
@@ -109,10 +110,10 @@ class ComputeAgents:
 
                 successRateA1 += self.agent1Report(copy(grid), path, copy(ghostMap))
                 successRateA2 += self.agent2Report(copy(grid), path, copy(ghostMap))
-                successRateA3 += self.agent3Report(copy(grid), path, copy(ghostMap))
+                # successRateA3 += self.agent3Report(copy(grid), path, copy(ghostMap))
                 successRateA4 += self.agent4Report(copy(grid), path, copy(ghostMap))
                 successRateA5 += self.agent5Report(copy(grid), path, copy(ghostMap))
-                successRateA6 += self.agent6Report(copy(grid), path, copy(ghostMap))
+                # successRateA6 += self.agent6Report(copy(grid), path, copy(ghostMap))
 
             agent1Map[numberOfGhosts] = successRateA1
             agent2Map[numberOfGhosts] = successRateA2

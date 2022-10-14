@@ -26,6 +26,7 @@ class Agent6:
             rows = [0, 0, -1, 1]
             cols = [-1, 1, 0, 0]
             d = []
+            Utility.printMaze(grid)
             for i in range(4):
                 newRow = currRow + rows[i]
                 newCol = currCol + cols[i]
@@ -130,4 +131,4 @@ if __name__ == "__main__":
 
     agent6 = Agent6()
 
-    agent6.findPath(51, 50)
+    agent6.findPath(10, 5)

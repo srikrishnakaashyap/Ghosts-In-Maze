@@ -54,6 +54,9 @@ class Agent4:
             if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
                 return True, grid, (currRow, currCol), ghostMap
 
+            Utility.printMaze(grid)
+            print(ghostMap)
+
             rows = [0, 0, -1, 1]
             cols = [-1, 1, 0, 0]
             d = [
@@ -151,4 +154,4 @@ if __name__ == "__main__":
 
     agent4 = Agent4()
 
-    agent4.findPath(51, 50)
+    agent4.findPath(10, 5)
