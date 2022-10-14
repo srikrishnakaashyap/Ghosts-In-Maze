@@ -15,7 +15,7 @@ class Agent4:
             return 0
 
         if (row, col) in ghostMap:
-            return (4 * ghostMap[(row, col)] * 2 * path[row][col][2]) / 10 * steps
+            return ((4 * ghostMap[(row, col)] * 2 * path[row][col][2]) / 10 * steps)
 
         rows = [-1, 1, 0, 0]
         cols = [0, 0, -1, 1]
