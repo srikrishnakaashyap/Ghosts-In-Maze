@@ -92,6 +92,7 @@ class ComputeAgents:
         agent5Map = {}
         agent6Map = {}
 
+
         self.mg = MazeGeneration()
 
         numberOfGhosts = 5
