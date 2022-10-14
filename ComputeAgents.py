@@ -73,6 +73,7 @@ class ComputeAgents:
     def agent6Report(self, grid, path, ghostMap):
 
         agent6 = Agent6()
+        agent6.agent4 = Agent4()
 
         (
             result,
