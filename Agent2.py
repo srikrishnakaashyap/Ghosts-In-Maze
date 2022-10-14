@@ -79,6 +79,10 @@ class Agent2:
 
         currPathMap = self.computePath(currRow, currCol, path)
         while True:
+            if (currRow, currCol) in ghostMap:
+                print("1")
+                return False, grid, (currRow, currCol), ghostMap
+
             if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
                 break
 

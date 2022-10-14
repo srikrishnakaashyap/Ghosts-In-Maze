@@ -20,34 +20,37 @@ class Agent1:
 
         return grid
 
-    def agent1(self, grid, path, ghostMap, ax, cbar_ax):
+    def agent1(self, grid, path, ghostMap, ax=None, cbar_ax=None):
         currRow = 0
         currCol = 0
 
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        plotGrid = self.prepareGrid(copy(grid))
-        plotGrid[currRow][currCol] = 6
-        im = sns.heatmap(plotGrid, linewidth=0.5)
-        plt.show(block=False)
+        # fig = plt.figure()
+        # ax = fig.add_subplot(111)
+        # plotGrid = self.prepareGrid(copy(grid))
+        # plotGrid[currRow][currCol] = 6
+        # im = sns.heatmap(plotGrid, linewidth=0.5)
+        # plt.show(block=False)
         # plt.pause(1)
 
         while True:
             # print(currRow, currCol)
+            if (currRow, currCol) in ghostMap:
+                return False, grid, (currRow, currCol), ghostMap
+
             if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
                 break
 
-            plotGrid = self.prepareGrid(copy(grid))
-            plotGrid[currRow][currCol] = 6
-            # fig.canvas.flush_events()
-            # fig.clf()
-            # plt.clf()
-            plt.gcf().canvas.flush_events()
-            sns.heatmap(ax=ax, data=plotGrid, cbar_ax=cbar_ax, linewidth=0.5)
+            # plotGrid = self.prepareGrid(copy(grid))
+            # plotGrid[currRow][currCol] = 6
+            # # fig.canvas.flush_events()
+            # # fig.clf()
+            # # plt.clf()
+            # plt.gcf().canvas.flush_events()
+            # sns.heatmap(ax=ax, data=plotGrid, cbar_ax=cbar_ax, linewidth=0.5)
 
-            # plt.clf()
-            # plt.draw()
-            plt.pause(0.1)
+            # # plt.clf()
+            # # plt.draw()
+            # plt.pause(0.1)
 
             newAgentPosition = path[currRow][currCol]
             currRow = newAgentPosition[0]
@@ -103,10 +106,8 @@ class Agent1:
 
         # Utility.printMaze(grid)
 
-        fig, (ax, cbar_ax) = plt.subplots(1, 2, figsize=(10, 8))
-
         result, finalGrid, finalAgentPosition, finalGhostPosition = self.agent1(
-            grid, path, ghostMap, ax, cbar_ax
+            grid, path, ghostMap
         )
 
         print(result)

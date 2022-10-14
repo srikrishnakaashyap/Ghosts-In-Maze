@@ -1,98 +1,145 @@
 from Agent1 import Agent1
 from Agent2 import Agent2
 from Agent3 import Agent3
+from Agent4 import Agent4
+from Agent5 import Agent5
+from Agent6 import Agent6
+from copy import copy
+from MazeGeneration import MazeGeneration
+from collections import defaultdict
+from UtilityFunctions import Utility
 import json
 
 
 class ComputeAgents:
-    def agent1Report(self, agent1Map):
-        numberOfGhosts = 5
+    def agent1Report(self, grid, path, ghostMap):
+        agent1 = Agent1()
 
-        while True:
-            successRate = 0
+        result, finalGrid, finalAgentPosition, finalGhostPosition = agent1.agent1(
+            grid, path, ghostMap
+        )
 
-            for i in range(100):
-                successRate += Agent1().findPath(51, numberOfGhosts)
+        return result
 
-            if successRate > 0:
-                agent1Map[numberOfGhosts] = successRate
-                print(
-                    "Agent 1 Success Rate is {} for {} ghosts".format(
-                        successRate, numberOfGhosts
-                    )
-                )
-                numberOfGhosts += 1
-            else:
-                return
+    def agent2Report(self, grid, path, ghostMap):
+        agent2 = Agent2()
 
-    def agent2Report(self, agent2Map):
-        numberOfGhosts = 5
+        result, finalGrid, finalAgentPosition, finalGhostPosition = agent2.agent2(
+            0, 0, grid, path, ghostMap
+        )
 
-        while True:
-            successRate = 0
+        return result
 
-            for i in range(100):
-                successRate += Agent1().findPath(51, numberOfGhosts)
+    def agent3Report(self, grid, path, ghostMap):
 
-            if successRate > 0:
-                agent2Map[numberOfGhosts] = successRate
-                print(
-                    "Agent 2 Success Rate is {} for {} ghosts".format(
-                        successRate, numberOfGhosts
-                    )
-                )
-                numberOfGhosts += 1
-            else:
-                return
+        agent3 = Agent3()
 
-    def agent3Report(self, agent3Map):
-        numberOfGhosts = 5
+        (
+            result,
+            finalGrid,
+            finalAgentPosition,
+            finalGhostPosition,
+        ) = agent3.agent3Iterative(0, 0, grid, path, ghostMap)
 
-        while True:
-            successRate = 0
+        return result
 
-            for i in range(100):
-                successRate += Agent3().findPath(51, numberOfGhosts)
+    def agent4Report(self, grid, path, ghostMap):
 
-            if successRate > 0:
-                agent3Map[numberOfGhosts] = successRate
-                print(
-                    "Agent 3 Success Rate is {} for {} ghosts".format(
-                        successRate, numberOfGhosts
-                    )
-                )
-                numberOfGhosts += 1
-            else:
-                return
+        agent4 = Agent4()
+
+        (
+            result,
+            finalGrid,
+            finalAgentPosition,
+            finalGhostPosition,
+        ) = agent4.agent4(0, 0, grid, path, ghostMap)
+
+        return result
+
+    def agent5Report(self, grid, path, ghostMap):
+
+        agent5 = Agent5()
+
+        (
+            result,
+            finalGrid,
+            finalAgentPosition,
+            finalGhostPosition,
+        ) = agent5.agent5(0, 0, grid, path, ghostMap)
+
+        return result
+
+    def agent6Report(self, grid, path, ghostMap):
+
+        agent6 = Agent6()
+
+        (
+            result,
+            finalGrid,
+            finalAgentPosition,
+            finalGhostPosition,
+        ) = agent6.agent6(0, 0, grid, path, ghostMap)
+
+        return result
 
     def computeReport(self):
 
         agent1Map = {}
         agent2Map = {}
         agent3Map = {}
+        agent4Map = {}
+        agent5Map = {}
+        agent6Map = {}
 
-        # print("INSIDE")
+        self.mg = MazeGeneration()
 
-        # self.agent1Report(agent1Map)
-        # with open("agent1.json", "w") as convert_file:
-        #     convert_file.write(json.dumps(agent1Map))
+        numberOfGhosts = 5
+        while True:
+            successRateA1 = 0
+            successRateA2 = 0
+            successRateA3 = 0
+            successRateA4 = 0
+            successRateA5 = 0
+            successRateA6 = 0
 
-        # self.agent2Report(agent2Map)
-        # with open("agent2.json", "w") as convert_file:
-        #     convert_file.write(json.dumps(agent2Map))
+            for i in range(100):
+                grid, path = self.mg.generateMaze(51)
+                ghostMap = defaultdict(int)
+                Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
-        self.agent3Report(agent3Map)
-        # with open("agent3.json", "w") as convert_file:
-        #     convert_file.write(json.dumps(agent3Map))
+                successRateA1 += self.agent1Report(copy(grid), path, copy(ghostMap))
+                successRateA2 += self.agent2Report(copy(grid), path, copy(ghostMap))
+                successRateA3 += self.agent3Report(copy(grid), path, copy(ghostMap))
+                successRateA4 += self.agent4Report(copy(grid), path, copy(ghostMap))
+                successRateA5 += self.agent5Report(copy(grid), path, copy(ghostMap))
+                successRateA6 += self.agent6Report(copy(grid), path, copy(ghostMap))
 
-        # convert_file.close
+            agent1Map[numberOfGhosts] = successRateA1
+            agent2Map[numberOfGhosts] = successRateA2
+            agent3Map[numberOfGhosts] = successRateA3
+            agent4Map[numberOfGhosts] = successRateA4
+            agent5Map[numberOfGhosts] = successRateA5
+            agent6Map[numberOfGhosts] = successRateA6
+
+            break
+
+        with open("agent1.json", "w") as convert_file:
+            convert_file.write(json.dumps(agent1Map))
+
+        with open("agent2.json", "w") as convert_file:
+            convert_file.write(json.dumps(agent2Map))
 
         with open("agent3.json", "w") as convert_file:
             convert_file.write(json.dumps(agent3Map))
 
-        print("AGENT 1", agent1Map)
-        print("AGENT 2", agent2Map)
-        print("AGENT 3", agent3Map)
+        with open("agent4.json", "w") as convert_file:
+            convert_file.write(json.dumps(agent4Map))
+
+        with open("agent5.json", "w") as convert_file:
+            convert_file.write(json.dumps(agent5Map))
+
+        with open("agent6.json", "w") as convert_file:
+            convert_file.write(json.dumps(agent6Map))
 
         return True
 

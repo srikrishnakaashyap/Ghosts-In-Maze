@@ -14,7 +14,9 @@ class Agent3:
         return x**2 / 5000
 
     # Try Failure Rate + distance + penality
-    def agent3Iterative(self, currRow, currCol, grid, path, ghostMap, visited):
+    def agent3Iterative(
+        self, currRow, currCol, grid, path, ghostMap, visited=defaultdict(int)
+    ):
         while True:
             visited[(currRow, currCol)] += 1
 

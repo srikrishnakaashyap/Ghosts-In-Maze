@@ -15,7 +15,7 @@ class Agent4:
             return 0
 
         if (row, col) in ghostMap:
-            return ((4 * ghostMap[(row, col)] * 2 * path[row][col][2]) / 10 * steps)
+            return (4 * ghostMap[(row, col)] * 2 * path[row][col][2]) / 10 * steps
 
         rows = [-1, 1, 0, 0]
         cols = [0, 0, -1, 1]
@@ -43,7 +43,7 @@ class Agent4:
                 visited.remove((newRow, newCol))
         return answer
 
-    def agent4(self, currRow, currCol, grid, path, ghostMap, visited):
+    def agent4(self, currRow, currCol, grid, path, ghostMap, visited=defaultdict(int)):
 
         while True:
             visited[(currRow, currCol)] += 1
@@ -110,7 +110,7 @@ class Agent4:
                     g -= 1
 
             ghostMap = copy(newGhostMap)
-            print(currRow, currCol)
+            # print(currRow, currCol)
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
 

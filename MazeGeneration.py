@@ -97,10 +97,20 @@ if __name__ == "__main__":
 
     grid, path = mg.generateMaze(10)
 
-    Utility.printMaze(grid)
+    # Utility.printMaze(grid)
 
-    print("_________________________")
-    Utility.printMaze(path)
+    # print("_________________________")
+    # Utility.printMaze(path)
+
+    for row in grid:
+        for col in row:
+            print(col, "& ", end="")
+        print()
+
+    for row in path:
+        for col in row:
+            print(col, "& ", end="")
+        print()
 
     # mg.printMaze(grid)
     # print("COUNT OF BLOCKED = ", mg.getCount(grid))

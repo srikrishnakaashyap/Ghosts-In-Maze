@@ -38,7 +38,7 @@ class Agent5:
                 visited.remove((newRow, newCol))
         return answer
 
-    def agent5(self, currRow, currCol, grid, path, ghostMap, visited):
+    def agent5(self, currRow, currCol, grid, path, ghostMap, visited=defaultdict(int)):
 
         while True:
             visited[(currRow, currCol)] += 1

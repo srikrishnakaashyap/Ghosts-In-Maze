@@ -10,10 +10,10 @@ import math
 
 
 class Agent6:
-    def get_penalty(self, x):
+    def getPenalty(self, x):
         return x**2 / 5000
 
-    def agent6(self, currRow, currCol, grid, path, ghostMap, visited):
+    def agent6(self, currRow, currCol, grid, path, ghostMap, visited=defaultdict(int)):
         while True:
             visited[(currRow, currCol)] += 1
 
@@ -112,7 +112,7 @@ class Agent6:
             finalGrid,
             finalAgentPosition,
             finalGhostPosition,
-        ) = self.agent4.agent4(0, 0, grid, path, ghostMap, visited)
+        ) = self.agent6(0, 0, grid, path, ghostMap, visited)
 
         print(result)
 
