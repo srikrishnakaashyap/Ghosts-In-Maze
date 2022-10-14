@@ -44,7 +44,7 @@ class Agent3:
                     successRate = 0
                     for j in range(10):
                         successRate += self.agent2.agent2(
-                            newRow, newCol, grid, path, ghostMap
+                            newRow, newCol, copy(grid), copy(path), copy(ghostMap)
                         )[0]
 
                     failureRate = 10 - successRate
@@ -89,7 +89,7 @@ class Agent3:
 
             ghostMap = copy(newGhostMap)
 
-            print(currRow, currCol, newAgentPosition)
+            print(currRow, currCol, ghostMap)
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
 
