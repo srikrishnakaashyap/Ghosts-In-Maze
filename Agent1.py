@@ -2,17 +2,52 @@ from MazeGeneration import MazeGeneration
 from collections import defaultdict
 from UtilityFunctions import Utility
 from copy import copy
+import seaborn as sns
+import matplotlib.pylab as plt
+import time
+
+sns.set_theme(style="white")
 
 
 class Agent1:
-    def agent1(self, grid, path, ghostMap):
+    def prepareGrid(self, grid):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    grid[i][j] = 2
+                if grid[i][j] > 1:
+                    grid[i][j] = 4
+
+        return grid
+
+    def agent1(self, grid, path, ghostMap, ax, cbar_ax):
         currRow = 0
         currCol = 0
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        plotGrid = self.prepareGrid(copy(grid))
+        plotGrid[currRow][currCol] = 6
+        im = sns.heatmap(plotGrid, linewidth=0.5)
+        plt.show(block=False)
+        # plt.pause(1)
 
         while True:
             # print(currRow, currCol)
             if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
                 break
+
+            plotGrid = self.prepareGrid(copy(grid))
+            plotGrid[currRow][currCol] = 6
+            # fig.canvas.flush_events()
+            # fig.clf()
+            # plt.clf()
+            plt.gcf().canvas.flush_events()
+            sns.heatmap(ax=ax, data=plotGrid, cbar_ax=cbar_ax, linewidth=0.5)
+
+            # plt.clf()
+            # plt.draw()
+            plt.pause(0.1)
 
             newAgentPosition = path[currRow][currCol]
             currRow = newAgentPosition[0]
@@ -68,8 +103,10 @@ class Agent1:
 
         # Utility.printMaze(grid)
 
+        fig, (ax, cbar_ax) = plt.subplots(1, 2, figsize=(10, 8))
+
         result, finalGrid, finalAgentPosition, finalGhostPosition = self.agent1(
-            grid, path, ghostMap
+            grid, path, ghostMap, ax, cbar_ax
         )
 
         print(result)

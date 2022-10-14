@@ -9,15 +9,13 @@ from heapq import heapify, heappop
 import math
 
 
-
-class Agent6():
-    
+class Agent6:
     def get_penalty(self, x):
-        return x**2/5000
+        return x**2 / 5000
 
     def agent6(self, currRow, currCol, grid, path, ghostMap, visited):
         while True:
-            visited[(currRow, currCol) ] += 1
+            visited[(currRow, currCol)] += 1
 
             if (currRow, currCol) in ghostMap:
                 return False, grid, (currRow, currCol), ghostMap
@@ -26,11 +24,8 @@ class Agent6():
                 return True, grid, (currRow, currCol), ghostMap
 
             rows = [0, 0, -1, 1]
-            cols = [-1, 1, 0, 0]   
-
+            cols = [-1, 1, 0, 0]
             d = []
-
-
             for i in range(4):
                 newRow = currRow + rows[i]
                 newCol = currCol + cols[i]
@@ -46,23 +41,32 @@ class Agent6():
                     iterations = 10
                     for j in range(10):
                         successrate += self.agent4.agent4(
-                            newRow, newCol, grid, path, ghostMap, visited
-                            )[0]
-                    
-                    failurerate = iterations - successrate
-                    
-                    d.append((failurerate + self.get_penalty(visited[newRow][newCol])), 
-                    (newRow, newCol), path[newRow][newCol])
-                         
+                            newRow,
+                            newCol,
+                            copy(grid),
+                            path,
+                            copy(ghostMap),
+                            copy(visited),
+                        )[0]
+
+                    failureRate = iterations - successrate
+                    distance = path[newRow][newCol][2]
+                    penality = self.getPenalty(visited[(newRow, newCol)])
+
+                    d.append(
+                        (
+                            failureRate + penality + distance,
+                            (newRow, newCol),
+                        )
+                    )
 
             heapify(d)
 
             if len(d) > 0:
                 direction = heappop(d)
-            else: 
-                direction = (currRow, currCol)
-
-            newAgentPosition = direction[1]
+                newAgentPosition = direction[1]
+            else:
+                newAgentPosition = (currRow, currCol)
 
             self.newGhostMap = defaultdict(int)
             for key, value in ghostMap.items():
@@ -83,9 +87,9 @@ class Agent6():
 
             ghostMap = copy(self.newGhostMap)
 
-            return self.agent6(
-                newAgentPosition[0], newAgentPosition[1], grid, path, ghostMap, visited
-            )
+            currRow = newAgentPosition[0]
+            currCol = newAgentPosition[1]
+            print(currRow, currCol)
 
     def findPath(self, gridSize, numberOfGhosts):
 
@@ -120,7 +124,6 @@ class Agent6():
         # print(finalGhostPosition)
 
         return result
-    
 
 
 if __name__ == "__main__":

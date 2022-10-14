@@ -93,7 +93,7 @@ class Agent3:
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
 
-    def agent3(self, currRow, currCol, grid, path, ghostMap, visited):
+    def agent3Recursive(self, currRow, currCol, grid, path, ghostMap, visited):
 
         visited[(currRow, currCol)] += 1
 
