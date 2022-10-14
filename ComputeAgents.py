@@ -4,7 +4,7 @@ from Agent3 import Agent3
 from Agent4 import Agent4
 from Agent5 import Agent5
 from Agent6 import Agent6
-from copy import copy, deepcopy
+from copy import deepcopy
 from MazeGeneration import MazeGeneration
 from collections import defaultdict
 from UtilityFunctions import Utility
