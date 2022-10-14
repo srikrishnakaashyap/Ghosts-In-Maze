@@ -1,7 +1,7 @@
 from MazeGeneration import MazeGeneration
 from collections import defaultdict
 from UtilityFunctions import Utility
-from copy import copy
+from copy import deepcopy
 
 
 class Agent2:
@@ -110,7 +110,7 @@ class Agent2:
 
                         g -= 1
 
-                ghostMap = copy(self.newGhostMap)
+                ghostMap = deepcopy(self.newGhostMap)
             else:
                 newAgentPosition = path[currRow][currCol]
                 currPathMap[(currRow, currCol)] = True
@@ -133,7 +133,7 @@ class Agent2:
 
                         g -= 1
 
-                ghostMap = copy(self.newGhostMap)
+                ghostMap = deepcopy(self.newGhostMap)
 
         return True, grid, (currRow, currCol), ghostMap
 

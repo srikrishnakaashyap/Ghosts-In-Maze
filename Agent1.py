@@ -1,7 +1,7 @@
 from MazeGeneration import MazeGeneration
 from collections import defaultdict
 from UtilityFunctions import Utility
-from copy import copy
+from copy import deepcopy
 import seaborn as sns
 import matplotlib.pylab as plt
 import time
@@ -76,7 +76,7 @@ class Agent1:
 
                     g -= 1
 
-            ghostMap = copy(self.newGhostMap)
+            ghostMap = deepcopy(self.newGhostMap)
 
         return True, grid, (currRow, currCol), ghostMap
 

@@ -165,7 +165,7 @@ class Agent3:
 
                 g -= 1
 
-        ghostMap = copy(self.newGhostMap)
+        ghostMap = deepcopy(self.newGhostMap)
 
         return self.agent3(
             newAgentPosition[0], newAgentPosition[1], grid, path, ghostMap, visited

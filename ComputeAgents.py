@@ -4,7 +4,7 @@ from Agent3 import Agent3
 from Agent4 import Agent4
 from Agent5 import Agent5
 from Agent6 import Agent6
-from copy import copy, deepcopy
+from copy import deepcopy
 from MazeGeneration import MazeGeneration
 from collections import defaultdict
 from UtilityFunctions import Utility
@@ -92,7 +92,6 @@ class ComputeAgents:
         agent5Map = {}
         agent6Map = {}
 
-
         self.mg = MazeGeneration()
 
         numberOfGhosts = 5
@@ -109,12 +108,24 @@ class ComputeAgents:
                 ghostMap = defaultdict(int)
                 Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
-                successRateA1 += self.agent1Report(deepcopy(grid), path, deepcopy(ghostMap))
-                successRateA2 += self.agent2Report(deepcopy(grid), path, deepcopy(ghostMap))
-                # successRateA3 += self.agent3Report(copy(grid), path, copy(ghostMap))
-                successRateA4 += self.agent4Report(deepcopy(grid), path, deepcopy(ghostMap))
-                successRateA5 += self.agent5Report(deepcopy(grid), path, deepcopy(ghostMap))
-                # successRateA6 += self.agent6Report(copy(grid), path, copy(ghostMap))
+                successRateA1 += self.agent1Report(
+                    deepcopy(grid), path, deepcopy(ghostMap)
+                )
+                successRateA2 += self.agent2Report(
+                    deepcopy(grid), path, deepcopy(ghostMap)
+                )
+                successRateA3 += self.agent3Report(
+                    deepcopy(grid), path, deepcopy(ghostMap)
+                )
+                successRateA4 += self.agent4Report(
+                    deepcopy(grid), path, deepcopy(ghostMap)
+                )
+                successRateA5 += self.agent5Report(
+                    deepcopy(grid), path, deepcopy(ghostMap)
+                )
+                successRateA6 += self.agent6Report(
+                    deepcopy(grid), path, deepcopy(ghostMap)
+                )
 
             agent1Map[numberOfGhosts] = successRateA1
             agent2Map[numberOfGhosts] = successRateA2
