@@ -14,6 +14,9 @@ class Agent5:
         if steps == 5:
             return 0
 
+        if row == len(path) - 1 and col == len(path[0]) - 1:
+            return -(10**5)
+
         if (row, col) in ghostMap and grid[row][col] % 2 != 1:
             return (4 * ghostMap[(row, col)] * 2 * path[row][col][2]) / 10 * steps
 
