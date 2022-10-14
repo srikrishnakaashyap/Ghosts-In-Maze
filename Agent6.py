@@ -131,4 +131,4 @@ if __name__ == "__main__":
 
     agent6 = Agent6()
 
-    agent6.findPath(10, 5)
+    agent6.findPath(51, 5)

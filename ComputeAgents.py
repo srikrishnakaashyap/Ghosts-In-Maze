@@ -104,7 +104,7 @@ class ComputeAgents:
             successRateA5 = 0
             successRateA6 = 0
 
-            for i in range(100):
+            for i in range(1):
                 grid, path = self.mg.generateMaze(51)
                 ghostMap = defaultdict(int)
                 Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
@@ -134,26 +134,35 @@ class ComputeAgents:
             agent4Map[numberOfGhosts] = successRateA4
             agent5Map[numberOfGhosts] = successRateA5
             agent6Map[numberOfGhosts] = successRateA6
+            with open("agent1.json", "w") as convert_file:
+                convert_file.write(json.dumps(agent1Map))
 
-            break
+            with open("agent2.json", "w") as convert_file:
+                convert_file.write(json.dumps(agent2Map))
 
-        with open("agent1.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent1Map))
+            with open("agent3.json", "w") as convert_file:
+                convert_file.write(json.dumps(agent3Map))
 
-        with open("agent2.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent2Map))
+            with open("agent4.json", "w") as convert_file:
+                convert_file.write(json.dumps(agent4Map))
 
-        with open("agent3.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent3Map))
+            with open("agent5.json", "w") as convert_file:
+                convert_file.write(json.dumps(agent5Map))
 
-        with open("agent4.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent4Map))
+            with open("agent6.json", "w") as convert_file:
+                convert_file.write(json.dumps(agent6Map))
 
-        with open("agent5.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent5Map))
+            numberOfGhosts += 1
 
-        with open("agent6.json", "w") as convert_file:
-            convert_file.write(json.dumps(agent6Map))
+            if (
+                successRateA1 == 0
+                and successRateA2 == 0
+                and successRateA3 == 0
+                and successRateA4 == 0
+                and successRateA5 == 0
+                and successRateA6 == 0
+            ):
+                break
 
         return True
 

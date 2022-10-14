@@ -131,7 +131,7 @@ class Agent4:
 
         Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
-        Utility.printMaze(grid)
+        # Utility.printMaze(grid)
 
         visited = defaultdict(int)
 
@@ -158,4 +158,4 @@ if __name__ == "__main__":
 
     agent4 = Agent4()
 
-    agent4.findPath(10, 5)
+    agent4.findPath(51, 5)
