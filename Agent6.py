@@ -4,7 +4,7 @@ import random
 from collections import deque
 from UtilityFunctions import Utility
 from collections import defaultdict
-from copy import copy
+from copy import deepcopy
 from heapq import heapify, heappop
 import math
 
@@ -26,7 +26,7 @@ class Agent6:
             rows = [0, 0, -1, 1]
             cols = [-1, 1, 0, 0]
             d = []
-            Utility.printMaze(grid)
+            # Utility.printMaze(grid)
             for i in range(4):
                 newRow = currRow + rows[i]
                 newCol = currCol + cols[i]
@@ -44,10 +44,10 @@ class Agent6:
                         successrate += self.agent4.agent4(
                             newRow,
                             newCol,
-                            copy(grid),
+                            deepcopy(grid),
                             path,
-                            copy(ghostMap),
-                            copy(visited),
+                            deepcopy(ghostMap),
+                            deepcopy(visited),
                         )[0]
 
                     failureRate = iterations - successrate
@@ -86,7 +86,7 @@ class Agent6:
 
                     g -= 1
 
-            ghostMap = copy(self.newGhostMap)
+            ghostMap = deepcopy(self.newGhostMap)
 
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
@@ -104,7 +104,7 @@ class Agent6:
 
         Utility.spawnGhosts(grid, numberOfGhosts, ghostMap)
 
-        Utility.printMaze(grid)
+        # Utility.printMaze(grid)
 
         visited = defaultdict(int)
 

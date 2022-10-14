@@ -4,7 +4,7 @@ import random
 from collections import deque
 from UtilityFunctions import Utility
 from collections import defaultdict
-from copy import copy
+from copy import deepcopy
 from heapq import heapify, heappop
 import math
 
@@ -33,6 +33,7 @@ class Agent3:
             cols = [-1, 1, 0, 0]
             d = []
 
+            # Utility.printMaze(grid)
             for i in range(4):
                 newRow = currRow + rows[i]
                 newCol = currCol + cols[i]
@@ -41,12 +42,14 @@ class Agent3:
                 if (
                     0 <= newRow < len(grid)
                     and 0 <= newCol < len(grid[0])
-                    and grid[newRow][newCol] == 0
+                    and grid[newRow][newCol] % 2 == 0
+                    and (newRow, newCol) not in ghostMap
                 ):
                     successRate = 0
                     for j in range(10):
-                        successRate += self.agent2.agent2(
-                            newRow, newCol, copy(grid), copy(path), copy(ghostMap)
+                        a2 = Agent2()
+                        successRate += a2.agent2(
+                            newRow, newCol, deepcopy(grid), path, deepcopy(ghostMap)
                         )[0]
 
                     failureRate = 10 - successRate
@@ -62,6 +65,7 @@ class Agent3:
                         )
                     # print(d)
 
+            # Utility.printMaze(grid)
             heapify(d)
             if len(d) > 0:
                 direction = heappop(d)
@@ -89,11 +93,12 @@ class Agent3:
 
                     g -= 1
 
-            ghostMap = copy(newGhostMap)
+            ghostMap = deepcopy(newGhostMap)
 
-            print(currRow, currCol, ghostMap)
+            # Utility.printMaze(grid)
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
+            print(currRow, currCol)
 
     def agent3Recursive(self, currRow, currCol, grid, path, ghostMap, visited):
 
