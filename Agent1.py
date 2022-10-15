@@ -2,14 +2,19 @@ from MazeGeneration import MazeGeneration
 from collections import defaultdict
 from UtilityFunctions import Utility
 from copy import deepcopy
-import seaborn as sns
-import matplotlib.pylab as plt
+
+# import seaborn as sns
+# import matplotlib.pylab as plt
 import time
 
-sns.set_theme(style="white")
+# sns.set_theme(style="white")
 
 
 class Agent1:
+
+    # This is a utility function that is used to visualize the maze.
+    # This function doesn't have any significance for the
+    # agent implementation
     def prepareGrid(self, grid):
         for i in range(len(grid)):
             for j in range(len(grid[0])):
@@ -20,6 +25,9 @@ class Agent1:
 
         return grid
 
+    # Given the grid, path(precomputed matrix of the distance and the next cell),
+    # and the ghostMap that stores the current position of
+    # ghosts, this function performs the Agent 1 steps
     def agent1(self, grid, path, ghostMap, ax=None, cbar_ax=None):
         currRow = 0
         currCol = 0
@@ -32,11 +40,17 @@ class Agent1:
         # plt.show(block=False)
         # plt.pause(1)
 
+        # This loop runs till either we reach the destination,
+        # or get eaten by the ghost.
         while True:
             # print(currRow, currCol)
+            # If there is a ghost in the current cell we are in, then
+            # we return False indicating the agents death
             if (currRow, currCol) in ghostMap:
                 return False, grid, (currRow, currCol), ghostMap
 
+            # If the above condition fails and we reach the destination,
+            # we break out of the loop.
             if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
                 break
 
@@ -52,13 +66,20 @@ class Agent1:
             # # plt.draw()
             # plt.pause(0.1)
 
+            # The next position that the agent needs to go to is in the
+            # current index of the path array.
+            # Hence, we find the next position.
             newAgentPosition = path[currRow][currCol]
             currRow = newAgentPosition[0]
             currCol = newAgentPosition[1]
 
+            # If the cell into which the agent moved already has a ghost in it
+            # we return false.
             if (currRow, currCol) in ghostMap:
                 return False, grid, (currRow, currCol), ghostMap
 
+            # We iterate through every ghost present in the ghostMap
+            # and move the ghost by one step.
             self.newGhostMap = defaultdict(int)
             for key, value in ghostMap.items():
 
@@ -69,6 +90,9 @@ class Agent1:
 
                     newPosition = Utility.moveGhost(row, col, grid)
                     # print(newAgentPosition[:2], newPosition)
+
+                    # If we move ghost into the cell containing the agent,
+                    # then we return false indicating the agents death
                     if newAgentPosition[:2] == newPosition:
                         return False, grid, (currRow, currCol), ghostMap
 
@@ -78,6 +102,8 @@ class Agent1:
 
             ghostMap = deepcopy(self.newGhostMap)
 
+        # If we break out of the loop, then this indicates that we have
+        # reached the destination and we return True
         return True, grid, (currRow, currCol), ghostMap
 
     def findPath(self, gridSize, numberOfGhosts):

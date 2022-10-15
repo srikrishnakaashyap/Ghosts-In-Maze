@@ -6,17 +6,33 @@ from copy import copy
 
 
 class Agent4:
+
+    # This is a takeaway from Agent 3. We use the penalty
+    # that grows slowly initially and grows exponentially
+    # with the increase in its values so that we dont
+    # visit the same cell again and again.
     def getPenalty(self, x):
         return x**2 / 5000
 
+    # This is a DFS technique to travel round the radius
+    # and check if there is a ghost in any of those cells.
     def dfs(self, row, col, visited, ghostMap, path, steps):
 
+        # If we reach the radius of 5, then there doesnt
+        # exist any ghost and this path is more desirable in the
+        # min-heap. Therefore, we return 0.
         if steps == 5:
             return 0
 
+        # If we reach the destination, then this step is the most
+        # desirable step and we return a very minimum value such that
+        # this choice is at the top of the min-heap
         if row == len(path) - 1 and col == len(path[0]) - 1:
             return -(10**5)
 
+        # We designed a custom heuristic that weighs the distance between the agent and
+        # ghost by a factor of 10, the number of ghosts by a factor of 4 and the distance
+        # to the destination by a factor of 2. Our aim is to minimize this heuristic
         if (row, col) in ghostMap:
             # print(path[row][col])
             return (4 * ghostMap[(row, col)] * 2 * path[row][col][2]) / 10 * steps
@@ -24,6 +40,9 @@ class Agent4:
         rows = [-1, 1, 0, 0]
         cols = [0, 0, -1, 1]
 
+        # We travel all the neighbours and
+        # if the neighbour is valid, then we recursively call the function
+        # upto we reach the radius of 5.
         answer = 0
         for i in range(4):
             newRow = row + rows[i]
@@ -50,11 +69,19 @@ class Agent4:
     def agent4(self, currRow, currCol, grid, path, ghostMap, visited=defaultdict(int)):
 
         while True:
+
+            # We update the number of times we visit the cell
+            # in the hashmap
             visited[(currRow, currCol)] += 1
+
+            # If there is a ghost in the current cell we are in, then
+            # we return False indicating the agents death
             if (currRow, currCol) in ghostMap:
                 print("1")
                 return False, grid, (currRow, currCol), ghostMap
 
+            # If the above condition fails and we reach the destination,
+            # we return true
             if currRow == len(grid) - 1 and currCol == len(grid[0]) - 1:
                 return True, grid, (currRow, currCol), ghostMap
 
@@ -70,10 +97,12 @@ class Agent4:
                 # )
             ]
 
+            # Traversing the neighbours
             for i in range(4):
                 newRow = currRow + rows[i]
                 newCol = currCol + cols[i]
 
+                # If the neighbour is the destination, we return True
                 if newRow == len(grid) - 1 and newCol == len(grid[0]) - 1:
                     return True, grid, (newRow, newCol), ghostMap
                 if (
@@ -81,6 +110,11 @@ class Agent4:
                     and 0 <= newCol < len(grid[0])
                     and grid[newRow][newCol] == 0
                 ):
+
+                    # We append the DFS heuristic + penality + distance as our decision heuristic
+                    # and the new coordinates.
+
+                    # Our aim is to minimize this value
                     d.append(
                         (
                             self.dfs(
@@ -93,12 +127,16 @@ class Agent4:
                     )
 
             heapify(d)
+
+            # If the heap is empty, then staying at the same cell is taken to be a
+            # desired move
             if len(d) > 0:
                 direction = heappop(d)
                 newAgentPosition = direction[2]
             else:
                 newAgentPosition = (currRow, currCol)
 
+            # We iterate through the ghostMap and move the ghosts
             newGhostMap = defaultdict(int)
             for key, value in ghostMap.items():
 
@@ -108,6 +146,9 @@ class Agent4:
                     col = key[1]
 
                     newPosition = Utility.moveGhost(row, col, grid)
+
+                    # If we move ghost into the cell containing the agent,
+                    # then we return false indicating the agents death
                     if newAgentPosition == newPosition:
                         print("2")
                         return False, grid, newPosition, ghostMap
